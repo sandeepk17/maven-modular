@@ -14,7 +14,7 @@ pipeline {
         stage ('Environment variables') {
             steps {
                 echo "The build number is ${env.BUILD_NUMBER}"
-                echo "The build name is ${env.JOB_NAME}"
+                echo "The build name is ${${env.JOB_NAME}}"
                 echo "You can also use \${BUILD_NUMBER} -> ${BUILD_NUMBER}"
                 sh 'echo "I can access $BUILD_NUMBER in shell command as well."'
                 sh 'printenv'
@@ -30,8 +30,8 @@ pipeline {
         stage ('Deploy to Artifactory') {
             steps {
                 rtUpload (
-                    buildName: 'MK',
-                    buildNumber: '48',
+                    buildName: "${env.JOB_NAME}",
+                    buildNumber: "${env.BUILD_NUMBER}",
                     serverId: "Artifactory", // Obtain an "Artifactory" server instance, defined in Jenkins --> Manage:
                     specPath: 'resources/props-upload.json'
                 )
@@ -41,8 +41,8 @@ pipeline {
         stage ('Download from Artifactory') {
             steps {
                 rtDownload (
-                    buildName: 'MK',
-                    buildNumber: '48',
+                    buildName: "${env.JOB_NAME}",
+                    buildNumber: "${env.BUILD_NUMBER}",
                     serverId: "Artifactory",
                     specPath: 'resources/props-download.json'
                 )
@@ -52,8 +52,8 @@ pipeline {
         stage ('Publish build info') {
             steps {
                 rtPublishBuildInfo (
-                    buildName: 'MK',
-                    buildNumber: '48',
+                    buildName: "${env.JOB_NAME}",
+                    buildNumber: "${env.BUILD_NUMBER}",
                     serverId: "Artifactory"
                 )
             }
@@ -67,8 +67,8 @@ pipeline {
                     targetRepo: 'libs-release-local',
 
                     //Optional parameters
-                    buildName: 'MK',
-                    buildNumber: '48',
+                    buildName: "${env.JOB_NAME}",
+                    buildNumber: "${env.BUILD_NUMBER}",
                     comment: 'this is the promotion comment',
                     sourceRepo: 'libs-snapshot-local',
                     status: 'Released',
