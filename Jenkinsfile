@@ -4,28 +4,34 @@ pipeline {
     stages {
         stage ('Clone') {
             steps {
-                git branch: 'master', url: "https://github.com/sandeepk17/project-examples.git"
+                git branch: 'master', url: "https://github.com/sandeepk17/maven-modular.git"
             }
         }
 
-        stage ('Upload') {
+        stage('Build/sonar Analysis'){
+            steps{
+                echo "Build and static code analysis"
+            }
+        }
+
+        stage ('Deploy to Artifactory') {
             steps {
                 rtUpload (
                     buildName: 'MK',
                     buildNumber: '48',
                     serverId: "Artifactory", // Obtain an "Artifactory" server instance, defined in Jenkins --> Manage:
-                    specPath: 'jenkins-examples/pipeline-examples/resources/props-upload.json'
+                    specPath: 'resources/props-upload.json'
                 )
             }
         }
 
-        stage ('Download') {
+        stage ('Download from Artifactory') {
             steps {
                 rtDownload (
                     buildName: 'MK',
                     buildNumber: '48',
                     serverId: "Artifactory",
-                    specPath: 'jenkins-examples/pipeline-examples/resources/props-download.json'
+                    specPath: 'resources/props-download.json'
                 )
             }
         }
@@ -40,7 +46,7 @@ pipeline {
             }
         }
 
-        stage ('Promotion') {
+        stage ('Promotion to Release') {
             steps {
                 rtPromote (
                     //Mandatory parameter
