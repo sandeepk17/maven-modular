@@ -16,6 +16,11 @@ pipeline {
         timestamps()
         ansiColor("xterm")
     }
+    
+    tools {
+		jdk "jdk8"
+		maven "maven3"
+	}
 
     environment {
         FOO = "bar"
