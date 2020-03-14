@@ -1,5 +1,22 @@
 pipeline {
     agent any
+    //agent {
+    //    docker {
+    //        image "sdkman:local" 
+    //    }
+    //}
+    
+    //agent {
+    //    dockerfile {
+    //        filename DOCKERFILE
+    //        additionalBuildArgs "--build-arg JAVA_VERSION=11.0.5-open -t maven:11.0.5-open"
+    //    }
+    //}
+    options {
+        timestamps()
+        ansiColor("xterm")
+    }
+
     environment {
         FOO = "bar"
     }
@@ -11,8 +28,26 @@ pipeline {
             }
         }
 
+        //stage("openjdk-11.0.5") {
+        //    agent {
+        //        dockerfile {
+        //            filename DOCKERFILE
+        //            additionalBuildArgs "--build-arg JAVA_VERSION=11.0.5-open -t maven:11.0.5-open"
+        //        }
+        //    }
+        //    steps {
+        //        sh "${MVN_COMMAND} -P jdk11"
+        //    }
+        //    post {
+        //        always {
+        //            junit TEST_REPORTS
+        //        }
+        //    }
+        //}
+
         stage ('Environment variables') {
             steps {
+                sh 'printf "\\e[31mPrinting Environment Variables...\\e[0m\\n"'
                 echo "The build number is ${env.BUILD_NUMBER}"
                 echo "The build name is ${env.JOB_NAME}"
                 echo "You can also use \${BUILD_NUMBER} -> ${BUILD_NUMBER}"
@@ -23,7 +58,7 @@ pipeline {
 
         stage('Build/sonar Analysis'){
             steps{
-                echo "Build and static code analysis"
+                sh "mvn clean package"
             }
         }
 
