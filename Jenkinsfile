@@ -14,7 +14,7 @@ pipeline {
         stage ('Environment variables') {
             steps {
                 echo "The build number is ${env.BUILD_NUMBER}"
-                echo "The build name is ${${env.JOB_NAME}}"
+                echo "The build name is ${env.JOB_NAME}"
                 echo "You can also use \${BUILD_NUMBER} -> ${BUILD_NUMBER}"
                 sh 'echo "I can access $BUILD_NUMBER in shell command as well."'
                 sh 'printenv'
