@@ -24,6 +24,15 @@ pipeline {
 
     environment {
         FOO = "bar"
+        // Set env variables for Pipeline
+        IMAGE = readMavenPom().getArtifactId()
+        VERSION = readMavenPom().getVersion()
+        ARTIFACTORY_SERVER_ID = "Artifactory"
+        ARTIFACTORY_URL = "https://artifactory.azure.dsb.dk/artifactory"
+        ARTIFACTORY_CREDENTIALS = "Artifactory"
+        CURRENT_BUILD_NO = "${currentBuild.number}"
+        RELEASE_TAG = "${currentBuild.number}-${VERSION}"
+        CURRENT_BRANCH = "${env.BRANCH_NAME}
     }
 
     stages {
@@ -67,35 +76,77 @@ pipeline {
             }
         }
 
-        stage ('Deploy to Artifactory') {
+        //stage ('Deploy to Artifactory') {
+        //    steps {
+        //        rtUpload (
+        //            buildName: "${env.JOB_NAME}",
+        //            buildNumber: "${env.BUILD_NUMBER}",
+        //            serverId: "Artifactory", // Obtain an "Artifactory" server instance, defined in Jenkins --> Manage:
+        //            specPath: 'resources/props-upload.json'
+        //        )
+        //    }
+        //}
+//
+        //stage ('Download from Artifactory') {
+        //    steps {
+        //        rtDownload (
+        //            buildName: "${env.JOB_NAME}",
+        //            buildNumber: "${env.BUILD_NUMBER}",
+        //            serverId: "Artifactory",
+        //            specPath: 'resources/props-download.json'
+        //        )
+        //    }
+        //}
+//
+        //stage ('Publish build info') {
+        //    steps {
+        //        rtPublishBuildInfo (
+        //            buildName: "${env.JOB_NAME}",
+        //            buildNumber: "${env.BUILD_NUMBER}",
+        //            serverId: "Artifactory"
+        //        )
+        //    }
+        //}
+
+        stage ('Archive & Artifactory Upload') {
             steps {
+                echo " Archive and Artifactory Deplyment stage"
+                //junit '**/target/surefire-reports/TEST-*.xml'
+                zip archive: true, dir: "$WORKSPACE/module2/target", glob: '', zipFile: "module2-snapshot.zip"
+                zip archive: true, dir: "$WORKSPACE/module1/target", glob: '', zipFile: "module1-snapshot.zip"
+                archiveArtifacts artifacts: "**/*.zip", fingerprint: true
+                //rtServer (
+                //    id: "${ARTIFACTORY_SERVER_ID}",
+                //    url: "${ARTIFACTORY_URL}",
+                //    credentialsId: "${ARTIFACTORY_CREDENTIALS}"
+                //)
+
                 rtUpload (
+                    serverId: "${ARTIFACTORY_SERVER_ID}",
+                    spec: '''{
+                        "files": [
+                            {
+                            "pattern": "$WORKSPACE/*.zip",
+                            "target": "salgskerne/Test-${RELEASE_TAG}/"
+                            }
+                        ]
+                    }''',
                     buildName: "${env.JOB_NAME}",
-                    buildNumber: "${env.BUILD_NUMBER}",
-                    serverId: "Artifactory", // Obtain an "Artifactory" server instance, defined in Jenkins --> Manage:
-                    specPath: 'resources/props-upload.json'
+                    buildNumber: "${currentBuild.number}"
                 )
-            }
-        }
-
-        stage ('Download from Artifactory') {
-            steps {
-                rtDownload (
-                    buildName: "${env.JOB_NAME}",
-                    buildNumber: "${env.BUILD_NUMBER}",
-                    serverId: "Artifactory",
-                    specPath: 'resources/props-download.json'
-                )
-            }
-        }
-
-        stage ('Publish build info') {
-            steps {
+                
                 rtPublishBuildInfo (
+                    serverId: "${ARTIFACTORY_SERVER_ID}",
                     buildName: "${env.JOB_NAME}",
-                    buildNumber: "${env.BUILD_NUMBER}",
-                    serverId: "Artifactory"
+                    buildNumber: "${currentBuild.number}"
                 )
+            }
+        }
+
+        stage('Octopus Deploy') {
+            steps {
+                echo "Deployment to Octopus"
+
             }
         }
 
