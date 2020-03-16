@@ -173,7 +173,7 @@ pipeline {
     post { 
         always {
             echo 'One way or another, I have finished'
-            deleteDir()
+            //deleteDir()
         }
         success {
             echo 'I succeeeded!'
