@@ -32,7 +32,7 @@ pipeline {
         ARTIFACTORY_CREDENTIALS = "Artifactory"
         CURRENT_BUILD_NO = "${currentBuild.number}"
         RELEASE_TAG = "${currentBuild.number}-${VERSION}"
-        CURRENT_BRANCH = "${env.BRANCH_NAME}
+        CURRENT_BRANCH = "${env.BRANCH_NAME}"
     }
 
     stages {
