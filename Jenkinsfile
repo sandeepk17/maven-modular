@@ -112,8 +112,8 @@ pipeline {
             steps {
                 echo " Archive and Artifactory Deplyment stage"
                 //junit '**/target/surefire-reports/TEST-*.xml'
-                zip archive: true, dir: "$WORKSPACE/module2/target", glob: '', zipFile: "module2-snapshot.zip"
-                zip archive: true, dir: "$WORKSPACE/module1/target", glob: '', zipFile: "module1-snapshot.zip"
+                //zip archive: true, dir: "$WORKSPACE/module2/target", glob: '', zipFile: "module2-snapshot.zip"
+                //zip archive: true, dir: "$WORKSPACE/module1/target", glob: '', zipFile: "module1-snapshot.zip"
                 fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module2-snapshot.zip", targetLocation: salescore)])
                 fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module1-snapshot.zip", targetLocation: salescore)])
                 fileOperations([fileZipOperation("salescore-${BUILD_NUMBER}/")])
