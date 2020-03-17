@@ -154,14 +154,14 @@ pipeline {
             steps {
                 rtPromote (
                     //Mandatory parameter
-                    serverId: "Artifactory",
+                    serverId: "${ARTIFACTORY_SERVER_ID}",
                     targetRepo: 'libs-release-local',
 
                     //Optional parameters
                     buildName: "${env.JOB_NAME}",
                     buildNumber: "${env.BUILD_NUMBER}",
                     comment: 'this is the promotion comment',
-                    sourceRepo: 'libs-snapshot-local',
+                    sourceRepo: 'salgskerne/Test-${RELEASE_TAG}/',
                     status: 'Released',
                     includeDependencies: true,
                     failFast: true,
