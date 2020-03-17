@@ -164,7 +164,7 @@ pipeline {
                     sourceRepo: 'salgskerne',
                     status: 'Released',
                     includeDependencies: true,
-                    //failFast: true,
+                    failFast: true,
                     copy: true
                 )
             }
