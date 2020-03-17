@@ -112,8 +112,11 @@ pipeline {
             steps {
                 echo " Archive and Artifactory Deplyment stage"
                 //junit '**/target/surefire-reports/TEST-*.xml'
-                //zip archive: true, dir: "$WORKSPACE/module2/target", glob: '', zipFile: "module2-snapshot.zip"
-                //zip archive: true, dir: "$WORKSPACE/module1/target", glob: '', zipFile: "module1-snapshot.zip"
+                zip archive: true, dir: "$WORKSPACE/module2/target", glob: '', zipFile: "module2-snapshot.zip"
+                zip archive: true, dir: "$WORKSPACE/module1/target", glob: '', zipFile: "module1-snapshot.zip"
+                fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module2-snapshot.zip", targetLocation: salescore)]
+                fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module1-snapshot.zip", targetLocation: salescore)]
+                fileOperations([fileZipOperation("salescore-${BUILD_NUMBER}/")])
                 archiveArtifacts artifacts: "**/*.zip"
                 //rtServer (
                 //    id: "${ARTIFACTORY_SERVER_ID}",
@@ -152,21 +155,22 @@ pipeline {
 
         stage ('Promotion to Release') {
             steps {
-                rtPromote (
-                    //Mandatory parameter
-                    serverId: "${ARTIFACTORY_SERVER_ID}",
-                    targetRepo: "libs-release-local",
-
-                    //Optional parameters
-                    buildName: "${env.JOB_NAME}",
-                    buildNumber: "${env.BUILD_NUMBER}",
-                    comment: 'this is the promotion comment',
-                    sourceRepo: 'salgskerne',
-                    status: 'Released',
-                    includeDependencies: true,
-                    failFast: true,
-                    copy: true
-                )
+                echo "Promote Development to Release"
+                //rtPromote (
+                //    //Mandatory parameter
+                //    serverId: "${ARTIFACTORY_SERVER_ID}",
+                //    targetRepo: "libs-release-local",
+//
+                //    //Optional parameters
+                //    buildName: "${env.JOB_NAME}",
+                //    buildNumber: "${env.BUILD_NUMBER}",
+                //    comment: 'this is the promotion comment',
+                //    sourceRepo: 'salgskerne',
+                //    status: 'Released',
+                //    includeDependencies: true,
+                //    failFast: true,
+                //    copy: true
+                //)
             }
         }
     }
