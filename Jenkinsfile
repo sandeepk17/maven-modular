@@ -114,7 +114,7 @@ pipeline {
                 //junit '**/target/surefire-reports/TEST-*.xml'
                 zip archive: true, dir: "$WORKSPACE/module2/target", glob: '', zipFile: "module2-snapshot.zip"
                 zip archive: true, dir: "$WORKSPACE/module1/target", glob: '', zipFile: "module1-snapshot.zip"
-                archiveArtifacts artifacts: "**/*.zip", fingerprint: true
+                archiveArtifacts artifacts: "**/*.zip"
                 //rtServer (
                 //    id: "${ARTIFACTORY_SERVER_ID}",
                 //    url: "${ARTIFACTORY_URL}",
