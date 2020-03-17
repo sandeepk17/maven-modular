@@ -117,7 +117,7 @@ pipeline {
                 //sh "mkdir $WORKSPACE/salescore"
                 fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module2-snapshot.zip", targetLocation: "$WORKSPACE/salescore/")])
                 fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module1-snapshot.zip", targetLocation: "$WORKSPACE/salescore/")])
-                fileOperations([fileZipOperation("salescore-${BUILD_NUMBER}/")])
+                fileOperations([fileZipOperation("salescore")])
                 archiveArtifacts artifacts: "**/*.zip"
                 //rtServer (
                 //    id: "${ARTIFACTORY_SERVER_ID}",
