@@ -155,7 +155,7 @@ pipeline {
                 rtPromote (
                     //Mandatory parameter
                     serverId: "${ARTIFACTORY_SERVER_ID}",
-                    targetRepo: "libs-release-local/Test-${RELEASE_TAG}/",
+                    targetRepo: "libs-release-local",
 
                     //Optional parameters
                     buildName: "${env.JOB_NAME}",
