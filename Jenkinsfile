@@ -72,7 +72,7 @@ pipeline {
 
         stage('Build/sonar Analysis'){
             steps{
-                sh "mvn clean package deploy -s /resources/settings.xml"
+                sh "mvn clean package deploy -s resources/settings.xml"
             }
         }
 
