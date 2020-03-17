@@ -112,8 +112,8 @@ pipeline {
             steps {
                 echo " Archive and Artifactory Deplyment stage"
                 //junit '**/target/surefire-reports/TEST-*.xml'
-                zip archive: true, dir: "$WORKSPACE/module2/target", glob: '', zipFile: "module2-snapshot.zip"
-                zip archive: true, dir: "$WORKSPACE/module1/target", glob: '', zipFile: "module1-snapshot.zip"
+                //zip archive: true, dir: "$WORKSPACE/module2/target", glob: '', zipFile: "module2-snapshot.zip"
+                //zip archive: true, dir: "$WORKSPACE/module1/target", glob: '', zipFile: "module1-snapshot.zip"
                 //rtServer (
                 //    id: "${ARTIFACTORY_SERVER_ID}",
                 //    url: "${ARTIFACTORY_URL}",
