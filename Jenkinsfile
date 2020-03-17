@@ -161,10 +161,10 @@ pipeline {
                     buildName: "${env.JOB_NAME}",
                     buildNumber: "${env.BUILD_NUMBER}",
                     comment: 'this is the promotion comment',
-                    sourceRepo: "salgskerne/Test-${RELEASE_TAG}",
+                    sourceRepo: "salgskerne/Test-${RELEASE_TAG}/",
                     status: 'Released',
                     includeDependencies: true,
-                    failFast: true,
+                    //failFast: true,
                     copy: true
                 )
             }
