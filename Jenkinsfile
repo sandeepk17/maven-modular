@@ -130,7 +130,7 @@ pipeline {
                     spec: '''{
                         "files": [
                             {
-                            "pattern": "$WORKSPACE/*.zip",
+                            "pattern": "$WORKSPACE/salescore.zip",
                             "target": "salgskerne/Test-${RELEASE_TAG}/"
                             }
                         ]
@@ -175,22 +175,22 @@ pipeline {
             }
         }
     }
-    //post { 
-    //    always {
-    //        echo 'One way or another, I have finished'
-    //        //deleteDir()
-    //    }
-    //    success {
-    //        echo 'I succeeeded!'
-    //    }
-    //    unstable {
-    //        echo 'I am unstable :/'
-    //    }
-    //    failure {
-    //        echo 'I failed :('
-    //    }
-    //    changed {
-    //        echo 'Things were different before...'
-    //    }
-    //}
+    post { 
+        always {
+            echo 'One way or another, I have finished'
+            //deleteDir()
+        }
+        success {
+            echo 'I succeeeded!'
+        }
+        unstable {
+            echo 'I am unstable :/'
+        }
+        failure {
+            echo 'I failed :('
+        }
+        changed {
+            echo 'Things were different before...'
+        }
+    }
 }
