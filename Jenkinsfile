@@ -155,13 +155,13 @@ pipeline {
                 rtPromote (
                     //Mandatory parameter
                     serverId: "${ARTIFACTORY_SERVER_ID}",
-                    targetRepo: 'libs-release-local',
+                    targetRepo: "libs-release-local/Test-${RELEASE_TAG}/",
 
                     //Optional parameters
                     buildName: "${env.JOB_NAME}",
                     buildNumber: "${env.BUILD_NUMBER}",
                     comment: 'this is the promotion comment',
-                    sourceRepo: "salgskerne/Test-${RELEASE_TAG}/",
+                    sourceRepo: "salgskerne/Test-${RELEASE_TAG}/*.zip",
                     status: 'Released',
                     includeDependencies: true,
                     //failFast: true,
