@@ -28,7 +28,7 @@ pipeline {
         IMAGE = readMavenPom().getArtifactId()
         VERSION = readMavenPom().getVersion()
         ARTIFACTORY_SERVER_ID = "Artifactory"
-        ARTIFACTORY_URL = "https://192.168.0.114:8082/artifactory"
+        ARTIFACTORY_URL = "http://192.168.0.114:8082/artifactory"
         ARTIFACTORY_CREDENTIALS = "Artifactory"
         CURRENT_BUILD_NO = "${currentBuild.number}"
         RELEASE_TAG = "${currentBuild.number}-${VERSION}"
@@ -130,7 +130,7 @@ pipeline {
                     spec: '''{
                         "files": [
                             {
-                            "pattern": "$WORKSPACE/salescore-${env.BUILD_NUMBER}.zip",
+                            "pattern": "**/*.zip",
                             "target": "salgskerne/Test-${RELEASE_TAG}/"
                             }
                         ]
