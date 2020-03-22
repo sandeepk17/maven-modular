@@ -114,10 +114,10 @@ pipeline {
                 //junit '**/target/surefire-reports/TEST-*.xml'
                 //zip archive: true, dir: "$WORKSPACE/module2/target", glob: '', zipFile: "module2-snapshot.zip"
                 //zip archive: true, dir: "$WORKSPACE/module1/target", glob: '', zipFile: "module1-snapshot.zip"
-                //sh "mkdir $WORKSPACE/salescore"
-                fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module2-snapshot.zip", targetLocation: "$WORKSPACE/salescore/")])
-                fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module1-snapshot.zip", targetLocation: "$WORKSPACE/salescore/")])
-                fileOperations([fileZipOperation("salescore")])
+                sh "mkdir $WORKSPACE/salescore-${env.BUILD_NUMBER}"
+                fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module2-snapshot.zip", targetLocation: "$WORKSPACE/salescore-${env.BUILD_NUMBER}/")])
+                fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module1-snapshot.zip", targetLocation: "$WORKSPACE/salescore-${env.BUILD_NUMBER}/")])
+                fileOperations([fileZipOperation("salescore-${env.BUILD_NUMBER}")])
                 archiveArtifacts artifacts: "**/*.zip"
                 //rtServer (
                 //    id: "${ARTIFACTORY_SERVER_ID}",
