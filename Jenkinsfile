@@ -28,7 +28,7 @@ pipeline {
         IMAGE = readMavenPom().getArtifactId()
         VERSION = readMavenPom().getVersion()
         ARTIFACTORY_SERVER_ID = "Artifactory"
-        //ARTIFACTORY_URL = "https://artifactory.azure.dsb.dk/artifactory"
+        ARTIFACTORY_URL = "https://192.168.0.114:8082/artifactory"
         ARTIFACTORY_CREDENTIALS = "Artifactory"
         CURRENT_BUILD_NO = "${currentBuild.number}"
         RELEASE_TAG = "${currentBuild.number}-${VERSION}"
@@ -119,11 +119,11 @@ pipeline {
                 fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module1-snapshot.zip", targetLocation: "$WORKSPACE/salescore-${env.BUILD_NUMBER}/")])
                 fileOperations([fileZipOperation("salescore-${env.BUILD_NUMBER}")])
                 archiveArtifacts artifacts: "**/*.zip"
-                //rtServer (
-                //    id: "${ARTIFACTORY_SERVER_ID}",
-                //    url: "${ARTIFACTORY_URL}",
-                //    credentialsId: "${ARTIFACTORY_CREDENTIALS}"
-                //)
+                rtServer (
+                    id: "${ARTIFACTORY_SERVER_ID}",
+                    url: "${ARTIFACTORY_URL}",
+                    credentialsId: "${ARTIFACTORY_CREDENTIALS}"
+                )
 
                 rtUpload (
                     serverId: "${ARTIFACTORY_SERVER_ID}",
