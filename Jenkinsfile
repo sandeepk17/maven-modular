@@ -28,7 +28,7 @@ pipeline {
         IMAGE = readMavenPom().getArtifactId()
         VERSION = readMavenPom().getVersion()
         ARTIFACTORY_SERVER_ID = "Artifactory"
-        ARTIFACTORY_URL = "https://artifactory.azure.dsb.dk/artifactory"
+        //ARTIFACTORY_URL = "https://artifactory.azure.dsb.dk/artifactory"
         ARTIFACTORY_CREDENTIALS = "Artifactory"
         CURRENT_BUILD_NO = "${currentBuild.number}"
         RELEASE_TAG = "${currentBuild.number}-${VERSION}"
