@@ -112,12 +112,12 @@ pipeline {
             steps {
                 echo " Archive and Artifactory Deplyment stage"
                 //junit '**/target/surefire-reports/TEST-*.xml'
-                zip archive: true, dir: "$WORKSPACE/module2/target", glob: '', zipFile: "module2-snapshot.zip"
-                zip archive: true, dir: "$WORKSPACE/module1/target", glob: '', zipFile: "module1-snapshot.zip"
-                sh "mkdir $WORKSPACE/salescore-0.0.1"
-                fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module2-snapshot.zip", targetLocation: "$WORKSPACE/salescore-0.0.1/")])
-                fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module1-snapshot.zip", targetLocation: "$WORKSPACE/salescore-0.0.1/")])
-                fileOperations([fileZipOperation("salescore-0.0.1")])
+                zip archive: true, dir: "$WORKSPACE/module2/target", glob: '', zipFile: "module2-${VERSION}.zip"
+                zip archive: true, dir: "$WORKSPACE/module1/target", glob: '', zipFile: "module1-${VERSION}.zip"
+                sh "mkdir $WORKSPACE/${IMAGE}"
+                fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module2-${VERSION}.zip", targetLocation: "$WORKSPACE/${IMAGE}/")])
+                fileOperations([fileCopyOperation(excludes: '', flattenFiles: false, includes: "module1-${VERSION}.zip", targetLocation: "$WORKSPACE/${IMAGE}/")])
+                fileOperations([fileZipOperation("salescore")])
                 archiveArtifacts artifacts: "**/*.zip"
                 rtServer (
                     id: "${ARTIFACTORY_SERVER_ID}",
@@ -130,7 +130,7 @@ pipeline {
                     spec: '''{
                         "files": [
                             {
-                            "pattern": "$WORKSPACE/salescore-0.0.1.zip",
+                            "pattern": "$WORKSPACE/${IMAGE}.zip",
                             "target": "salgskerne/Test-${RELEASE_TAG}/"
                             }
                         ]
