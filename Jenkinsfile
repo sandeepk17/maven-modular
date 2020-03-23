@@ -130,7 +130,7 @@ pipeline {
                     spec: '''{
                         "files": [
                             {
-                            "pattern": "$WORKSPACE/${IMAGE}.zip",
+                            "pattern": "$WORKSPACE/salescore.zip",
                             "target": "salgskerne/Test-${RELEASE_TAG}/"
                             }
                         ]
